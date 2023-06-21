@@ -1,0 +1,122 @@
+﻿<Window x:Class="RatingBarPerformance.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:RatingBarPerformance.ViewModels"
+        xmlns:models="clr-namespace:RatingBarPerformance.Models"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Style="{StaticResource WindowBaseStyle}"
+        Title="RatingBarPerformance" 
+        Height="450" 
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewModels:MainViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,10,0"
+                    ItemsSource="{Binding TabModels1}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Name="Root">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Title, Mode=OneTime}"/>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="YellowGreen" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type models:TestTabItemModel}">
+                    <ItemsControl ItemsSource="{Binding ItemModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Check" />
+                                    <materialDesign:PackIcon Kind="Check" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        <TabControl Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    ItemsSource="{Binding TabModels2}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Header" Value="{Binding}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Name="Root">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Title, Mode=OneTime}"/>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="Red" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type models:TestTabItemModel}">
+                    <ItemsControl ItemsSource="{Binding ItemModels}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                              <materialDesign:RatingBar Max="2"
+                                                        IsReadOnly="True"
+                                                        Value="1">
+                                  <materialDesign:RatingBar.ValueItemTemplate>
+                                      <DataTemplate>
+                                          <materialDesign:PackIcon 
+                                              Width="12"
+                                              Height="12"
+                                              Kind="Check"
+                                              FontWeight="Bold" />
+                                      </DataTemplate>
+                                  </materialDesign:RatingBar.ValueItemTemplate>
+                              </materialDesign:RatingBar>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        <TextBlock Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="10"
+                Text="Left side change is very fast, but right side change is very slow." />
+    </Grid>
+</Window>
